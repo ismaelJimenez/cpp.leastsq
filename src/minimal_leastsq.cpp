@@ -78,7 +78,7 @@ LeastSq leastSq(const std::vector<int>& N, const std::vector<int>& Time, const B
 
 	double mean = sigmaTime / N.size();
 
-	result.rms = sqrt(rms) / mean; // Normalized RMS
+	result.rms = sqrt(rms) / mean; // Normalized RMS by the mean of the observed values
 
 	return result;
 }
