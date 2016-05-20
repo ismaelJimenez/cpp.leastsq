@@ -17,7 +17,7 @@ The implementation will consider two cases:
 Applying the method of least squares for finding the coefficient C, given the actual timing data as:
 
 | Input Size    | Measured Runtime | 
-| ------------- |:-------------:|
+| :-------------: |:-------------:|
 | N1            | T1            |
 | N2            | T2            |
 | N3            | T3            |
@@ -59,7 +59,7 @@ In the special case of an asymptotically constant time algorithm, represented in
 Applying the method of least squares for finding the coefficient C, given the actual timing data as:
 
 | Input Size    | Measured Runtime | 
-| ------------- |:-------------:|
+| :-------------: |:-------------:|
 | N1            | T1            |
 | N2            | T2            |
 | N3            | T3            |
