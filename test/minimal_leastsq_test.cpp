@@ -15,7 +15,7 @@ TEST(minimal_leastsq_test, constant)
     EXPECT_EQ(result.complexity, BigO::O_1);
 }
 
-TEST(minimal_leastsq_test, constant_perfect_fit)
+TEST(minimal_leastsq_test, constant_good_fit)
 {    
     std::vector<int> N{ 1, 2, 3, 4 };
 	std::vector<int> Time{ 5, 5, 5, 5 };
@@ -39,7 +39,7 @@ TEST(minimal_leastsq_test, linear)
     EXPECT_EQ(result.complexity, BigO::O_N);
 }
 
-TEST(minimal_leastsq_test, linear_perfect_fit)
+TEST(minimal_leastsq_test, linear_good_fit)
 {    
     std::vector<int> N{ 1, 2, 3, 4 };
 	std::vector<int> Time{ 3, 6, 9, 12 };
@@ -51,7 +51,7 @@ TEST(minimal_leastsq_test, linear_perfect_fit)
     EXPECT_EQ(result.complexity, BigO::O_N);
 }
 
-TEST(minimal_leastsq_test, squared_bad_fit)
+TEST(minimal_leastsq_test, N_squared)
 {    
     std::vector<int> N{ 1, 2, 3, 4 };
 	std::vector<int> Time{ 6, 5, 7, 10 };
@@ -63,7 +63,7 @@ TEST(minimal_leastsq_test, squared_bad_fit)
     EXPECT_EQ(result.complexity, BigO::O_N_Squared);
 }
 
-TEST(minimal_leastsq_test, squared_perfect_fit)
+TEST(minimal_leastsq_test, N_squared_good_fit)
 {    
     std::vector<int> N{ 1, 2, 3, 4 };
 	std::vector<int> Time{ 1, 4, 9, 16 };
@@ -73,4 +73,148 @@ TEST(minimal_leastsq_test, squared_perfect_fit)
     EXPECT_NEAR(result.coef, 1, 0.01);
     EXPECT_NEAR(result.rms, 0, 0.01);
     EXPECT_EQ(result.complexity, BigO::O_N_Squared);
+}
+
+TEST(minimal_leastsq_test, N_cubed)
+{    
+    std::vector<int> N{ 1, 2, 3, 4 };
+	std::vector<int> Time{ 4, 35, 150, 390 };
+
+	LeastSq result = minimalLeastSq(N, Time, BigO::O_N_Cubed);
+    
+    EXPECT_NEAR(result.coef, 5.99, 0.01);
+    EXPECT_NEAR(result.rms, 0.129, 0.01);
+    EXPECT_EQ(result.complexity, BigO::O_N_Cubed);
+}
+
+TEST(minimal_leastsq_test, N_cubed_good_fit)
+{    
+    std::vector<int> N{ 1, 2, 3, 4 };
+	std::vector<int> Time{ 8, 64, 216, 512 };
+
+	LeastSq result = minimalLeastSq(N, Time, BigO::O_N_Cubed);
+    
+    EXPECT_NEAR(result.coef, 8, 0.01);
+    EXPECT_NEAR(result.rms, 0, 0.01);
+    EXPECT_EQ(result.complexity, BigO::O_N_Cubed);
+}
+
+TEST(minimal_leastsq_test, logN)
+{    
+    std::vector<int> N{ 1, 2, 3, 4 };
+	std::vector<int> Time{ 3, 22, 33, 44 };
+
+	LeastSq result = minimalLeastSq(N, Time, BigO::O_log_N);
+    
+    EXPECT_NEAR(result.coef, 21.605, 0.01);
+    EXPECT_NEAR(result.rms, 0.131, 0.01);
+    EXPECT_EQ(result.complexity, BigO::O_log_N);
+}
+
+TEST(minimal_leastsq_test, logN_good_fit)
+{    
+    std::vector<int> N{ 1, 2, 3, 4 };
+	std::vector<int> Time{ 0, 8, 12, 16 };
+
+	LeastSq result = minimalLeastSq(N, Time, BigO::O_log_N);
+    
+    EXPECT_NEAR(result.coef, 7.85, 0.01);
+    EXPECT_NEAR(result.rms, 0.07, 0.01);
+    EXPECT_EQ(result.complexity, BigO::O_log_N);
+}
+
+TEST(minimal_leastsq_test, N_logN)
+{    
+    std::vector<int> N{ 1, 2, 3, 4 };
+	std::vector<int> Time{ 5, 40, 97, 180 };
+
+	LeastSq result = minimalLeastSq(N, Time, BigO::O_N_log_N);
+    
+    EXPECT_NEAR(result.coef, 21.865, 0.01);
+    EXPECT_NEAR(result.rms, 0.132, 0.01);
+    EXPECT_EQ(result.complexity, BigO::O_N_log_N);
+}
+
+TEST(minimal_leastsq_test, N_logN_good_fit)
+{    
+    std::vector<int> N{ 1, 2, 3, 4 };
+	std::vector<int> Time{ 0, 43, 102, 172 };
+
+	LeastSq result = minimalLeastSq(N, Time, BigO::O_N_log_N);
+    
+    EXPECT_NEAR(result.coef, 21.487, 0.01);
+    EXPECT_NEAR(result.rms, 0.002, 0.01);
+    EXPECT_EQ(result.complexity, BigO::O_N_log_N);
+}
+
+TEST(minimal_leastsq_test, constant_auto_fit)
+{    
+    std::vector<int> N{ 1, 2, 3, 4 };
+	std::vector<int> Time{ 5, 5, 5, 5 };
+
+	LeastSq result = minimalLeastSq(N, Time, BigO::O_Auto);
+    
+    EXPECT_NEAR(result.coef, 5, 0.01);
+    EXPECT_NEAR(result.rms, 0, 0.01);
+    EXPECT_EQ(result.complexity, BigO::O_1);
+}
+
+TEST(minimal_leastsq_test, linear_auto_fit)
+{    
+    std::vector<int> N{ 1, 2, 3, 4 };
+	std::vector<int> Time{ 3, 6, 9, 12 };
+
+	LeastSq result = minimalLeastSq(N, Time, BigO::O_Auto);
+    
+    EXPECT_NEAR(result.coef, 3, 0.01);
+    EXPECT_NEAR(result.rms, 0, 0.01);
+    EXPECT_EQ(result.complexity, BigO::O_N);
+}
+
+TEST(minimal_leastsq_test, N_squared_auto_fit)
+{    
+    std::vector<int> N{ 1, 2, 3, 4 };
+	std::vector<int> Time{ 1, 4, 9, 16 };
+
+	LeastSq result = minimalLeastSq(N, Time, BigO::O_Auto);
+    
+    EXPECT_NEAR(result.coef, 1, 0.01);
+    EXPECT_NEAR(result.rms, 0, 0.01);
+    EXPECT_EQ(result.complexity, BigO::O_N_Squared);
+}
+
+TEST(minimal_leastsq_test, N_cubed_auto_fit)
+{    
+    std::vector<int> N{ 1, 2, 3, 4 };
+	std::vector<int> Time{ 8, 64, 216, 512 };
+
+	LeastSq result = minimalLeastSq(N, Time, BigO::O_Auto);
+    
+    EXPECT_NEAR(result.coef, 8, 0.01);
+    EXPECT_NEAR(result.rms, 0, 0.01);
+    EXPECT_EQ(result.complexity, BigO::O_N_Cubed);
+}
+
+TEST(minimal_leastsq_test, logN_cubed_auto_fit)
+{    
+    std::vector<int> N{ 1, 2, 3, 4 };
+	std::vector<int> Time{ 0, 8, 12, 16 };
+
+	LeastSq result = minimalLeastSq(N, Time, BigO::O_Auto);
+    
+    EXPECT_NEAR(result.coef, 7.85, 0.01);
+    EXPECT_NEAR(result.rms, 0.07, 0.01);
+    EXPECT_EQ(result.complexity, BigO::O_log_N);
+}
+
+TEST(minimal_leastsq_test, N_logN_cubed_auto_fit)
+{    
+    std::vector<int> N{ 1, 2, 3, 4 };
+	std::vector<int> Time{ 0, 43, 102, 172 };
+
+	LeastSq result = minimalLeastSq(N, Time, BigO::O_Auto);
+    
+    EXPECT_NEAR(result.coef, 21.487, 0.01);
+    EXPECT_NEAR(result.rms, 0.002, 0.01);
+    EXPECT_EQ(result.complexity, BigO::O_N_log_N);
 }
