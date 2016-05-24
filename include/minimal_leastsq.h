@@ -16,38 +16,28 @@
 #define MINIMAL_LEASTSQ_H_
 
 #include <vector>
+#include <functional>
 
-// BigO is passed to a benchmark in order to specify the asymptotic computational complexity for the benchmark.
-enum class BigO {
-	O_None, // O_None is implemented to ease the integration with other libraries, like google benchmark
-	O_1,
-	O_N,
-	O_N_Squared,
-	O_N_Cubed,
-	O_log_N,
-	O_N_log_N,
-	O_Auto
-};
-
-// This data structure will contain the result returned vy minimalLeastSq
+// This data structure will contain the result returned by MinimalLeastSq
 //   - coef        : Estimated coeficient for the high-order term as interpolated from data.
 //   - rms         : Normalized Root Mean Squared Error.
-//   - complexity  : Scalability form (e.g. O_N, O_N_log_N). In case a scalability form has been provided to minimalLeastSq
-//                   this will return the same value. In case BigO::O_Auto has been selected, this parameter will return the 
-//                   best fitting curve detected.
+//   - complexity  : String representing the scalability form to be shown on the output. 
 
 struct LeastSq {
 	LeastSq() :
 		coef(0),
 		rms(0),
-		complexity(BigO::O_None) {}
+		complexity("") {}
 
 	double coef;
 	double rms;
-	BigO   complexity;
+	std::string complexity;
 };
 
 // Find the coefficient for the high-order term in the running time, by minimizing the sum of squares of relative error.
-LeastSq minimalLeastSq(const std::vector<int>& N, const std::vector<double>& Time, const BigO Complexity = BigO::O_Auto);
+LeastSq AutoMinimalLeastSq(const std::vector<int>& n, const std::vector<double>& time);
+
+// Find the coefficient for the high-order term in the running time, by minimizing the sum of squares of relative error.
+LeastSq MinimalLeastSq(const std::vector<int>& n, const std::vector<double>& time, std::function<double(int)> fitting_curve);
 
 #endif
