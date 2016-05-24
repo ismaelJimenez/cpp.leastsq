@@ -24,14 +24,14 @@
 //   - complexity  : String representing the scalability form to be shown on the output. 
 
 struct LeastSq {
-	LeastSq() :
-		coef(0),
-		rms(0),
-		complexity("") {}
+  LeastSq() :
+    coef(0),
+    rms(0),
+    complexity("") {}
 
-	double coef;
-	double rms;
-	std::string complexity;
+  double coef;
+  double rms;
+  std::string complexity;
 };
 
 // Find the coefficient for the high-order term in the running time, by minimizing the sum of squares of relative error.
