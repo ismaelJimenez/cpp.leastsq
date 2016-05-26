@@ -24,3 +24,6 @@ elif [ "$CXX" = "clang++" ]; then
     sudo update-alternatives --install /usr/local/bin/clang++ clang++ /usr/bin/clang++-3.6 90
     export PATH=/usr/local/bin:$PATH
 fi
+
+sudo apt-get install libgtest-dev
+"cd /usr/src/gtest && sudo cmake . && sudo cmake --build . && sudo mv libg* /usr/local/lib/ ; cd -"
