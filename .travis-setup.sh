@@ -26,4 +26,3 @@ elif [ "$CXX" = "clang++" ]; then
 fi
 
 sudo apt-get install libgtest-dev
-"cd /usr/src/gtest && sudo cmake . && sudo cmake --build . && sudo mv libg* /usr/local/lib/ ; cd -"

@@ -16,7 +16,6 @@ matrix:
 before_script:
     - source .travis-setup.sh
     - mkdir build && cd build
-
 install:
   - if [ "${BUILD_TYPE}" == "Coverage" -a "${TRAVIS_OS_NAME}" == "linux" ]; then
       PATH=~/.local/bin:${PATH};
