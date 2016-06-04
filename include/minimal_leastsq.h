@@ -15,29 +15,40 @@
 #if !defined(MINIMAL_LEASTSQ_H_)
 #define MINIMAL_LEASTSQ_H_
 
-#include <vector>
 #include <functional>
+#include <string>
+#include <vector>
+
+// BigO is passed to a benchmark in order to specify the asymptotic
+// computational complexity for the benchmark. In case oAuto is selected,
+// complexity will be calculated automatically to the best fit.
+enum BigO { oNone, o1, oN, oNSquared, oNCubed, oLogN, oNLogN, oAuto, oLambda };
 
 // This data structure will contain the result returned by MinimalLeastSq
-//   - coef        : Estimated coeficient for the high-order term as interpolated from data.
+//   - coef        : Estimated coeficient for the high-order term as
+//                   interpolated from data.
 //   - rms         : Normalized Root Mean Squared Error.
-//   - complexity  : String representing the scalability form to be shown on the output. 
+//   - complexity  : Scalability form (e.g. oN, oNLogN). In case a scalability
+//                   form has been provided to MinimalLeastSq this will return
+//                   the same value. In case BigO::oAuto has been selected, this
+//                   parameter will return the best fitting curve detected.
 
 struct LeastSq {
-  LeastSq() :
-    coef(0),
-    rms(0),
-    complexity("") {}
+  LeastSq() : coef(0.0), rms(0.0), complexity(oNone) {}
 
   double coef;
   double rms;
-  std::string complexity;
+  BigO complexity;
 };
 
-// Find the coefficient for the high-order term in the running time, by minimizing the sum of squares of relative error.
-LeastSq AutoMinimalLeastSq(const std::vector<int>& n, const std::vector<double>& time);
+LeastSq MinimalLeastSq(const std::vector<int> &n,
+                       const std::vector<double> &time, const BigO complexity);
 
-// Find the coefficient for the high-order term in the running time, by minimizing the sum of squares of relative error.
-LeastSq MinimalLeastSq(const std::vector<int>& n, const std::vector<double>& time, std::function<double(int)> fitting_curve);
+LeastSq MinimalLeastSq(const std::vector<int> &n,
+                       const std::vector<double> &time,
+                       std::function<double(int)> fitting_curve);
 
-#endif
+// Function to return an string for the calculated complexity
+std::string GetBigOString(BigO complexity);
+
+#endif  // MINIMAL_LEASTSQ_H_
